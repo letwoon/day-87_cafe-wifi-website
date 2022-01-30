@@ -1,0 +1,142 @@
+{% include "header.html" %}
+
+<body>
+
+  <!-- ======= Header ======= -->
+  <header id="header" class="fixed-top d-flex align-items-center header-transparent">
+    <div class="container-fluid container-xl d-flex align-items-center justify-content-between">
+
+      <div class="logo me-auto">
+        <h1><a href="{{ url_for('home') }}">Cafe & Wifi</a></h1>
+        <!-- Uncomment below if you prefer to use an image logo -->
+        <!-- <a href="index.html"><img src="static/assets/img/logo.png" alt="" class="img-fluid"></a>-->
+      </div>
+
+      <nav id="navbar" class="navbar order-last order-lg-0">
+        <ul>
+          <li><a class="nav-link scrollto active" href="#hero">Home</a></li>
+          <li><a class="nav-link scrollto" href="#about">Cafes</a></li>
+          <li><a class="nav-link scrollto" href="#contact">Contact</a></li>
+        </ul>
+        <i class="bi bi-list mobile-nav-toggle"></i>
+      </nav><!-- .navbar -->
+
+      <a href="{{ url_for('add_cafe') }}" class="add-a-cafe-btn scrollto">Add a Cafe</a>
+
+    </div>
+  </header>
+
+
+  <!-- ======= Hero Section ======= -->
+  <section id="hero">
+    <div class="hero-container">
+      <div id="heroCarousel" data-bs-interval="5000" class="carousel slide carousel-fade" data-bs-ride="carousel">
+        <div role="listbox">
+          <div class="carousel-item active" style="background-image: url(static/assets/img/slide/slide-1.jpg);">
+            <div class="carousel-container">
+              <div class="carousel-content">
+                <h2 class="animate__animated animate__fadeInDown"><span>Cafe & Wifi</span></h2>
+                <p class="animate__animated animate__fadeInUp">Ut velit est quam dolor ad a aliquid qui aliquid. Sequi ea ut et est quaerat sequi nihil ut aliquam. Occaecati alias dolorem mollitia ut. Similique ea voluptatem. Esse doloremque accusamus repellendus deleniti vel. Minus et tempore modi architecto.</p>
+                <div>
+                  <a href="{{ url_for('add_cafe') }}" class="btn-book animate__animated animate__fadeInUp scrollto">Add a Cafe</a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <a class="carousel-control-prev" href="#heroCarousel" role="button" data-bs-slide="prev">
+          <span class="carousel-control-prev-icon bi bi-chevron-left" aria-hidden="true"></span>
+        </a>
+
+
+      </div>
+    </div>
+  </section><!-- End Hero -->
+
+  <main id="main">
+
+    <!-- ======= Cafe Section ======= -->
+    <section id="about" class="about">
+      <div class="container-fluid">
+        {% for cafe in cafes: %}
+        <div class="row">
+
+          <div class="col-lg-4 cafe-img" style="padding-left: 100px;">
+            <img src="{{ cafe.img_url }}" alt="{{ cafe.name }}"
+            style="width:300px;height:auto;margin: 0 auto 0">
+          </div>
+
+          <div style="position:relative" class="col-lg-8 justify-content-center">
+            <div class="content">
+              <h3 style="display:inline-block;">{{ cafe.name}}</h3>
+              <a style="position:absolute;right:10%;top:10%;font-size:2rem;color:#FF6363" href="{{url_for('delete_cafe', cafe_id=cafe.id) }}">✘</a>
+              <p>
+                {{ cafe.location }}
+                <a href="{{ cafe.map_url }}" target="_blank"><i class="fas fa-map-marked-alt map-icon"></i></a>
+              </p>
+              <div class="environment">
+                <i style="display:inline-block;color:#ffb03b;" class="fas fa-chair icon"></i>
+                <h3 style="display:inline-block;padding-right:40px;">{{ cafe.seats }}</h3>
+                <i style="display:inline-block;color:#ffb03b;" class="fas fa-mug-hot icon"></i>
+                <h3 style="display:inline-block;" >{{ cafe.coffee_price }}</h3>
+              </div>
+              <div class="facility" style="display: block;">
+                <i class="fas fa-plug value-{{ cafe.has_sockets }} icon"></i>
+                <i class="fas fa-wifi value-{{ cafe.has_wifi }} icon"></i>
+                <i class="fas fa-restroom value-{{ cafe.has_toilet }} icon"></i>
+                <i class="fas fa-phone value-{{ cafe.can_take_calls }} icon"></i>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+        <hr class="solid">
+        {% endfor %}
+      </div>
+    </section>
+    <!-- End Cafe Section -->
+
+
+    <!-- ======= Contact Section ======= -->
+    <section id="contact" class="contact">
+      <div class="container">
+
+        <div class="section-title">
+          <h2><span>Contact</span> Us</h2>
+        </div>
+      </div>
+
+      <div class="container mt-5">
+
+        <form action="static/forms/contact.php" method="post" role="form" class="php-email-form">
+          <div class="row">
+            <div class="col-md-6 form-group">
+              <input type="text" name="name" class="form-control" id="name" placeholder="Your Name" required>
+            </div>
+            <div class="col-md-6 form-group mt-3 mt-md-0">
+              <input type="email" class="form-control" name="email" id="email" placeholder="Your Email" required>
+            </div>
+          </div>
+          <div class="form-group mt-3">
+            <input type="text" class="form-control" name="subject" id="subject" placeholder="Subject" required>
+          </div>
+          <div class="form-group mt-3">
+            <textarea class="form-control" name="message" rows="5" placeholder="Message" required></textarea>
+          </div>
+          <div class="my-3">
+            <div class="loading">Loading</div>
+            <div class="error-message"></div>
+            <div class="sent-message">Your message has been sent. Thank you!</div>
+          </div>
+          <div class="text-center"><button type="submit">Send Message</button></div>
+        </form>
+
+      </div>
+    </section><!-- End Contact Section -->
+
+  </main><!-- End #main -->
+
+{% include "footer.html" %}
